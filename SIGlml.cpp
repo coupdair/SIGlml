@@ -276,10 +276,12 @@ version: "+std::string(VERSION)+"\t(other library versions: DGlml_parameter_form
   if( cimg_option("--info",show_info,"show compilation options (or -I option)") ) {show_info=true;cimg_library::cimg::info();}//same --info or -I option  // Usage of the program displayed at the command line
   // Usage of the program displayed at the command line
 //particles
+  cimg_help("\nParticle options");
   ///particle parameter from stdin
   const char* createParticleType= cimg_option("-i","random","particle parameters source (cimg file or can be set to: random (internal) or stdin (external) (e.g. echo 31.234 12.345 | ./SIGlml -W 64 -H 64 -i stdin)");
   ///particle number
   int nbParticles= cimg_option("-n",10,"number of particles");
+  cimg_help("  internal mode only options");
   ///particle size
   float sigma_min= cimg_option("-s",1.0,"minimum value of sigma of gaussian function (i.e. minimum size)");
   float sigma_max= cimg_option("-S",2.0,"maximum value of sigma of gaussian function (i.e. maximum size)");
@@ -287,19 +289,21 @@ version: "+std::string(VERSION)+"\t(other library versions: DGlml_parameter_form
   int level_min = cimg_option("-b",200,"minimum value of amplitude of the gaussian function (i.e. minimum brightness)");
   int level_max = cimg_option("-B",255,"maximum value of amplitude of the gaussian function (i.e. maximum brightness)");
 //image
+  cimg_help("\nParticle image options");
   ///image file name (output)
   const char* filename= cimg_option("-o","particles.png","output image file name");
-  ///image grey level dynamics
-  int cutoff= cimg_option("-C",255,"gray level cut off (255 for 8 bit, >255 for 16 bit)");
   ///image size
   int width = cimg_option("-W",512,"image width");
   int height= cimg_option("-H",512,"image height");
+  cimg_help("  image options");
   ///image noise
   int noise_min = cimg_option("-m",10,"noise minimum level");
   int noise_max = cimg_option("-M",20,"noise maximum level");
-//background
+  ///background
   float ramp_slope= cimg_option("-A",0.015,"A slope of background ramp (y=Ax+B)");
   float ramp_const= cimg_option("-B",5,"B constant of background ramp (y=Ax+B)");
+  ///image grey level dynamics
+  int cutoff= cimg_option("-C",255,"gray level cut off (255 for 8 bit, >255 for 16 bit)");
 // non hiden particles center
 bool test_non_hiden_particles_center=cimg_option("-tnhc",false,"detecting the non hiden center of particles by occlusion( set to true if  there are need to detect the non hiden center otherwise set to false");
 
