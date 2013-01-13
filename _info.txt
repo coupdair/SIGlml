@@ -1,0 +1,36 @@
+#compile (gcc)
+make olinux
+
+#run
+./SIGlml -h
+./SIGlml
+display particles.png
+
+#run
+n=300; w=128; h=128; /bin/echo -n -e 'particle concentration='; echo 'scale=3;'$n'/('$w'*'$h')'|bc; ./SIGlml -n $n -A 0 -B 5 -l 100 -L 200 -W $w -H $h; display particles.png;
+
+#run special
+##create a correlation peak
+echo 32.102 21.012 | ./SIGlml -i stdin -W 64 -H 64 -o correlation_peak.png
+##create a grid
+./makeGrid.sh | ./SIGlml -i stdin -n 40
+##create particle image from PGlml
+./SIGlml -i ../PGlml/particle_parameters.cimg -o particles_from_particle_parameters.png
+
+#documentation (doxygen)
+./doxit.sh
+firefox ./doc/html/index.html
+
+#PIV generation
+../PGlml/PGlml -o particles.cimg
+##single exposure generation
+../DGlml/DGlml -i particles.cimg -d -0.5 -o particles_1.cimg
+../DGlml/DGlml -i particles.cimg -d +0.5 -o particles_2.cimg
+##double exposure generation
+../DGlml/DGlml -i particles.cimg -d 1 -o particles_1n2.cimg
+##single exposure images
+./SIGlml -i particles_1.cimg -o particles_1.png
+./SIGlml -i particles_2.cimg -o particles_2.png
+##double exposure image
+./SIGlml -i particles_1n2.cimg -o particles_1n2.png
+
