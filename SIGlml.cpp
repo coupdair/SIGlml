@@ -261,15 +261,15 @@ int main(int argc,char **argv)
   const bool help = cimg_option("-h",false,"Display Help");
 //particles
   ///particle parameter from stdin
-  const char* createParticleType= cimg_option("-i","random","particle parameters source (cimg file or) can be set to: random (internal) or stdin (external) (e.g. echo 31.234 12.345 | ./SIGlml -W 64 -H 64 -i stdin)");
+  const char* createParticleType= cimg_option("-i","random","particle parameters source (cimg file or can be set to: random (internal) or stdin (external) (e.g. echo 31.234 12.345 | ./SIGlml -W 64 -H 64 -i stdin)");
   ///particle number
   int nbParticles= cimg_option("-n",10,"number of particles");
   ///particle size
   float sigma_min= cimg_option("-s",1.0,"minimum value of sigma of gaussian function (i.e. minimum size)");
   float sigma_max= cimg_option("-S",2.0,"maximum value of sigma of gaussian function (i.e. maximum size)");
   ///particle grey level dynamics
-  int level_min = cimg_option("-l",200,"minimum value of amplitude of the gaussian function (i.e. minimum brightness)");
-  int level_max = cimg_option("-L",255,"maximum value of amplitude of the gaussian function (i.e. maximum brightness)");
+  int level_min = cimg_option("-b",200,"minimum value of amplitude of the gaussian function (i.e. minimum brightness)");
+  int level_max = cimg_option("-B",255,"maximum value of amplitude of the gaussian function (i.e. maximum brightness)");
 //image
   ///image file name (output)
   const char* filename= cimg_option("-o","particles.png","output image file name");

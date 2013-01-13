@@ -1,3 +1,8 @@
-get previous SIGlml (without hidden particles)
+> get previous SIGlml (without hidden particles; ? doxygen)
 _ add particle concentration computation
+
+. git (use SIGlml.cpp code from 20/11/2009 for initial commit using CImg.v1.3.0)
+_ standard usage, -h and -I command line options
+_ version
+_ doxygen
 

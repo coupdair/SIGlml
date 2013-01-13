@@ -7,7 +7,7 @@ make olinux
 display particles.png
 
 #run
-n=300; w=128; h=128; /bin/echo -n -e 'particle concentration='; echo 'scale=3;'$n'/('$w'*'$h')'|bc; ./SIGlml -n $n -A 0 -B 5 -l 100 -L 200 -W $w -H $h; display particles.png;
+n=300; w=128; h=128; /bin/echo -n -e 'particle concentration='; echo 'scale=3;'$n'/('$w'*'$h')'|bc; ./SIGlml -n $n -A 0 -B 5 -b 100 -B 200 -W $w -H $h; display particles.png;
 
 #run special
 ##create a correlation peak
