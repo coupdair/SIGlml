@@ -44,6 +44,8 @@
 # (name of the source files without the .cpp extension)
 #-------------------------------------------------------
 CIMG_FILES = SIGlml
+version = v0.0.1
+PG_format_version = `cat ../PGlml/PG_FORMAT_VERSION`
 
 #---------------------------------
 # Set correct variables and paths
@@ -55,10 +57,10 @@ CCVER        = `$(CC) -v 2>&1 | tail -n 1`
 EXEPFX       =
 
 ifeq ($(CC),icc)
-CFLAGS       = -I.. -ansi
+CFLAGS       = -I.. -ansi -DVERSION=\"$(version)\" -DPG_FORMAT_VERSION=\"$(PG_format_version)\"
 LDFLAGS      =
 else
-CFLAGS       = -I.. -Wall -W -ansi -pedantic
+CFLAGS       = -I.. -Wall -W -ansi -pedantic -DVERSION=\"$(version)\" -DPG_FORMAT_VERSION=\"$(PG_format_version)\"
 LDFLAGS      = -lm
 endif
 
@@ -172,6 +174,9 @@ endif
 #-------------------------
 # Define Makefile entries
 #-------------------------
+version: Makefile
+	echo ${version} > VERSION
+
 .cpp:
 	@echo
 	@echo "** Compiling '$* ($(CIMG_VERSION))' with '`$(CC) -v 2>&1 | tail -n 1`'"
@@ -221,7 +226,7 @@ menu:
 	@echo "Choose your option :"
 	@read CHOICE; echo; make $$CHOICE; echo; echo "> Next time, you can bypass the menu by typing directly 'make $$CHOICE'"; echo;
 
-all: $(CIMG_FILES)
+all: version $(CIMG_FILES)
 
 clean:
 	rm -rf *.app *.exe *.o *~ \#* CMakeFiles cmake_install.cmake CMakeCache.txt use_jpeg_buffer greycstoration4gimp gmic4gimp $(CIMG_FILES)

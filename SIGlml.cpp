@@ -256,9 +256,25 @@ template<typename T> int add_ramp(CImg<T> &ima,float ramp_const,float ramp_slope
 
 int main(int argc,char **argv)
 {
+//commmand line options
+ ///usage
+  cimg_usage(std::string("Synthetic particle Image Generator of LML, \
+it uses different GNU libraries (see --info option)\n\n \
+usage: ./SIGlml -h -I #help and compilation information\n \
+       ./SIGlml && display particles.png #just check: random gaussian particles\n \
+         PGlml -o particle.cimg #generate particle parameters using PGlml of SIGlml program suite\n \
+         DGlml -i particle.cimg -d -0.5 -o particle_exposure1.cimg #exposure 1 position rendering\n \
+         DGlml -i particle.cimg -d +0.5 -o particle_exposure2.cimg #exposure 2 position rendering\n \
+       ./SIGlml -o exposure1.tif        -i particle_exposure1.cimg #render exposure 1 image\n \
+       ./SIGlml -o exposure2.tif        -i particle_exposure2.cimg #render exposure 2 image\n \
+version: "+std::string(VERSION)+"\t(other library versions: DGlml_parameter_format."+std::string(PG_FORMAT_VERSION)+")\n compilation date: " \
+            ).c_str());//cimg_usage
+  ///information and help
+  const bool show_h   =cimg_option("-h",    false,NULL);//-h hidden option
+        bool show_help=cimg_option("--help",show_h,"help (or -h option)");show_help=show_h|show_help;//same --help or -h option
+  bool show_info=cimg_option("-I",false,NULL);//-I hidden option
+  if( cimg_option("--info",show_info,"show compilation options (or -I option)") ) {show_info=true;cimg_library::cimg::info();}//same --info or -I option  // Usage of the program displayed at the command line
   // Usage of the program displayed at the command line
-  cimg_usage("Synthetic particle Image Generator of LML");
-  const bool help = cimg_option("-h",false,"Display Help");
 //particles
   ///particle parameter from stdin
   const char* createParticleType= cimg_option("-i","random","particle parameters source (cimg file or can be set to: random (internal) or stdin (external) (e.g. echo 31.234 12.345 | ./SIGlml -W 64 -H 64 -i stdin)");
@@ -288,8 +304,9 @@ int main(int argc,char **argv)
 bool test_non_hiden_particles_center=cimg_option("-tnhc",false,"detecting the non hiden center of particles by occlusion( set to true if  there are need to detect the non hiden center otherwise set to false");
 
  //const char* file_non_hiden_particles_center=cimg_option("-nhc","non_hiden_center.cimg"," file name of the non  hiden particles center");
-  if(help) return 0;
-  
+  ///stop if help requested
+  if(show_help) {/*print_help(std::cerr);*/return 0;}
+
 //create empty image
   CImg<int> ima(width,height,1,1,0);
 //create or get particle parameters
