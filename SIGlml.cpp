@@ -132,37 +132,37 @@ template<typename T> int create_particles(int &n,CImg<T> &particles,/*gaussian p
   particles.draw_image(0,0,0,2,psigma);
   particles.draw_image(0,0,0,3,color);
   return 0;
-}
+}//create_particles
 
-//read particle position from stdin
-template<typename T> int get_particles(int &n,CImg<T> &particles,T sigma_min=1.5,T sigma_max=2.5,
-  T level_min=200,T level_max=255)
+//read particle parameters from stdin
+/* get gaussian particle parameters from stdin
+ * particle parameters: position x and y, sigma and level of 2D gaussian function
+ * \param[out] n: number of particles
+ * \param[out] particles: all particle parameters
+**/
+template<typename T> int get_particles(int &n,CImg<T> &particles)
 {
   if(n<1) n=512;
-  //x and y parameter arrays
-  CImg<T> coord_x(n),coord_y(n);
+  //positions x and y, sigma and level parameter arrays
+  CImg<T> coord_x(n),coord_y(n),psigma(n),color(n);
+
 //get particle parameters from stdin
   int p=-1;n--;
-  T x,y;
-  while(cin>>x>>y)
+  float x,y,q,w;
+  while(cin>>x>>y>>q>>w)
   {
 //cout<<endl<<"("<<x<<","<<y<<")";
-    p++;if(p>n) {cout<<endl<<"information: not enough space in the particle array (i.e. reallocating more space), set -n option to speed up execution (n should be higher than "<<n+1<<")."<<flush;n+=512;coord_x.resize(n);coord_y.resize(n);n--;}
+    p++;if(p>n) {cout<<endl<<"information: not enough space in the particle array (i.e. reallocating more space), set -n option to speed up execution (n should be higher than "<<n+1<<")."<<flush;n+=512;coord_x.resize(n);coord_y.resize(n);psigma.resize(n),color.resize(n);n--;}
     coord_x(p)=x;
     coord_y(p)=y;
+    psigma(p)=q;
+    color(p)=w;
   }
   if(p<0) return -1;
   //set number of particles
   n=p+1;
   //resize x and y arrays
-  coord_x.crop(0,n-1);coord_y.crop(0,n-1);
-  //others parameter arrays
-  CImg<T> psigma(n),color(n);// matrices de coordonnées des points plus sigma et color
-//create random particle parameters: 2D gaussian function
-  ///sigma of the gaussian curve (i.e. particle size)
-  psigma.rand(sigma_min,sigma_max);
-  ///maximum level (i.e. particle brightness)
-  color.rand(level_min,level_max);
+  coord_x.crop(0,n-1);coord_y.crop(0,n-1);psigma.crop(0,n-1);color.crop(0,n-1);
 //set particle parameters in only one structure (i.e. one CImg object)
   particles.assign(n,1,1,4);
   particles.draw_image(0,0,0,0,coord_x);
@@ -170,7 +170,7 @@ template<typename T> int get_particles(int &n,CImg<T> &particles,T sigma_min=1.5
   particles.draw_image(0,0,0,2,psigma);
   particles.draw_image(0,0,0,3,color);
   return 0;
-}
+}//get_particles
 
 //! add particles within the image
 /* create grey level particles and add it within the image.
@@ -182,7 +182,7 @@ template<typename T, typename t> int add_particles(CImg<T> &ima, CImg<t> &partic
 {
   int sigma_max=(int)particles.get_channel(2).max();
   int i=0;
-  CImg<T> tmp(2*(int)(2*sigma_max),2*(int)(2*sigma_max));
+  CImg<T> tmp(3*(int)(2*sigma_max),3*(int)(2*sigma_max));
 non_hiden_particles.assign(1,1,1,4);
 //draw gaussian particles on the image
  cimg_forX(particles,p)
@@ -220,7 +220,7 @@ if(test_non_hiden_particles_center)
 
 
 return 0;
-}
+}//add_particles
 
 
 //! add random gray level noise
@@ -235,7 +235,7 @@ template<typename T> int add_noise(CImg<T> &ima,int noise_min,int noise_max)
   //add noise image to image
   ima+=noise;
   return 0;
-}
+}//add_noise
 
 //! add background illumination ramp
 /* create linear grey level background and add it within the image.
@@ -252,7 +252,7 @@ template<typename T> int add_ramp(CImg<T> &ima,float ramp_const,float ramp_slope
   //add ramp image to image
   ima+=ramp;
   return 0;
-}
+}//add_ramp
 
 int main(int argc,char **argv)
 {
@@ -326,7 +326,7 @@ bool test_non_hiden_particles_center=cimg_option("-tnhc",false,"detecting the no
   else if (!cimg::strcmp("stdin",createParticleType))
   {
     cout<<"\rinformation: get particles from stdin."<<flush;
-    get_particles(nbParticles,particles,(float)sigma_min,(float)sigma_max,(float)level_min,(float)level_max);
+    get_particles(nbParticles,particles);
   }
   else
   {
@@ -380,5 +380,5 @@ bool test_non_hiden_particles_center=cimg_option("-tnhc",false,"detecting the no
     img.save(filename);
   }
  return 0;
-}
+}//main
 

@@ -44,7 +44,7 @@
 # (name of the source files without the .cpp extension)
 #-------------------------------------------------------
 CIMG_FILES = SIGlml
-version = v0.0.1
+version = v0.0.2
 PG_format_version = `cat ../PGlml/PG_FORMAT_VERSION`
 
 #---------------------------------

@@ -2,7 +2,7 @@
 make olinux
 
 #run
-./SIGlml -h
+./SIGlml -h -I
 ./SIGlml
 display particles.png
 
