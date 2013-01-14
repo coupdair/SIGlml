@@ -262,6 +262,7 @@ int main(int argc,char **argv)
 it uses different GNU libraries (see --info option)\n\n \
 usage: ./SIGlml -h -I #help and compilation information\n \
        ./SIGlml && display particles.png #just check: random gaussian particles\n \
+       echo 32.102 21.012 2.345 234.56 | ./SIGlml -i stdin -W 64 -H 64 -o correlation_peak.png #correlation peak rendering\n \
          PGlml -o particle.cimg #generate particle parameters using PGlml of SIGlml program suite\n \
          DGlml -i particle.cimg -d -0.5 -o particle_exposure1.cimg #exposure 1 position rendering\n \
          DGlml -i particle.cimg -d +0.5 -o particle_exposure2.cimg #exposure 2 position rendering\n \

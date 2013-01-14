@@ -11,7 +11,7 @@ n=300; w=128; h=128; /bin/echo -n -e 'particle concentration='; echo 'scale=3;'$
 
 #run special
 ##create a correlation peak
-echo 32.102 21.012 | ./SIGlml -i stdin -W 64 -H 64 -o correlation_peak.png
+echo 32.102 21.012 2.345 234.56 | ./SIGlml -i stdin -W 64 -H 64 -o correlation_peak.png
 ##create a grid
 ./makeGrid.sh | ./SIGlml -i stdin -n 40
 ##create particle image from PGlml
