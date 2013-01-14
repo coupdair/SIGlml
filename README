@@ -1,0 +1,65 @@
+Synthetic particle Image Generator of the Laboratory of Mechanics in Lille (LML) -part of SIGlml suite-
+
+SIGlml is part of Particle Image Velocimetry image generation for
+Synthetic Image Generation (i.e. render image of particles).
+Presently, particle image is drawn on both slope background and noisy grey levels.
+It is intended to test 2D2C PIV codes.
+It could be used either for PIV image or for correlation image synthesis.
+For 3D space, see PIVnet SIG at www.meol.cnrs.fr SIG .
+
+SIGlml program suite: PGlml | DGlml | SIGlml
+- PGlml
+- DGlml
+- SIGlml
+
+ex.:
+#PIV generation
+PGlml -o particles.cimg
+##single exposure generation
+DGlml -i particles.cimg -d -0.5 -o particles_1.cimg
+DGlml -i particles.cimg -d +0.5 -o particles_2.cimg
+##double exposure generation
+DGlml -i particles.cimg -d 1 -o particles_1n2.cimg
+##single exposure images
+SIGlml -i particles_1.cimg -o particles_1.png
+SIGlml -i particles_2.cimg -o particles_2.png
+##double exposure image
+SIGlml -i particles_1n2.cimg -o particles_1n2.png
+
+
+ SIGlml : Synthetic particle Image Generator of LML, it uses different GNU libraries (see --info option)
+
+ usage: ./SIGlml -h -I #help and compilation information
+        ./SIGlml && display particles.png #just check: random gaussian particles
+        echo 32.102 21.012 2.345 234.56 | ./SIGlml -i stdin -W 64 -H 64 -o correlation_peak.png #correlation peak rendering
+          PGlml -o particle.cimg #generate particle parameters using PGlml of SIGlml program suite
+          DGlml -i particle.cimg -d -0.5 -o particle_exposure1.cimg #exposure 1 position rendering
+          DGlml -i particle.cimg -d +0.5 -o particle_exposure2.cimg #exposure 2 position rendering
+        ./SIGlml -o exposure1.tif        -i particle_exposure1.cimg #render exposure 1 image
+        ./SIGlml -o exposure2.tif        -i particle_exposure2.cimg #render exposure 2 image
+ version: v0.0.2	(other library versions: DGlml_parameter_format.v0.0.1:xySB)
+ compilation date:  (Jan 13 2013, 22:53:25)
+
+    --help           true                     help (or -h option)
+    --info           false                    show compilation options (or -I option)
+
+Particle options
+    -i               random                   particle parameters source (cimg file or can be set to: random (internal) or stdin (external) (e.g. echo 31.234 12.345 | ./SIGlml -W 64 -H 64 -i stdin)
+    -n               10                       number of particles
+  internal mode only options
+    -s               1                        minimum value of sigma of gaussian function (i.e. minimum size)
+    -S               2                        maximum value of sigma of gaussian function (i.e. maximum size)
+    -b               200                      minimum value of amplitude of the gaussian function (i.e. minimum brightness)
+    -B               255                      maximum value of amplitude of the gaussian function (i.e. maximum brightness)
+
+Particle image options
+    -o               particles.png            output image file name
+    -W               512                      image width
+    -H               512                      image height
+  image options
+    -m               10                       noise minimum level
+    -M               20                       noise maximum level
+    -A               0.015                    A slope of background ramp (y=Ax+B)
+    -B               5                        B constant of background ramp (y=Ax+B)
+    -C               255                      gray level cut off (255 for 8 bit, >255 for 16 bit)
+
