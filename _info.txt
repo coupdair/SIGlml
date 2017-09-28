@@ -1,3 +1,5 @@
+#version is in "Makefile"
+
 #compile (gcc)
 make olinux
 
